@@ -75,6 +75,9 @@ tplink_board_detect() {
 	"070300"*)
 		model="TP-Link TL-WR703N"
 		;;
+        "072001"*)
+                model="TP-Link TL-WR720N"
+                ;;
 	"070100"*)
 		model="TP-Link TL-WA701N/ND"
 		;;
@@ -381,6 +384,9 @@ ar71xx_board_detect() {
 	*"TL-WR703N v1")
 		name="tl-wr703n"
 		;;
+        *"TL-WR720N v3")
+                name="tl-wr720n"
+                ;;
 	*"TL-MR11U")
 		name="tl-mr11u"
 		;;

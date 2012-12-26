@@ -1,5 +1,5 @@
 /*
- *  TP-LINK TL-WR703N board support
+ *  TP-LINK TL-WR720N board support
  *
  *  Copyright (C) 2011 dongyuqi <729650915@qq.com>
  *  Copyright (C) 2011-2012 Gabor Juhos <juhosg@openwrt.org>
@@ -21,55 +21,71 @@
 #include "dev-wmac.h"
 #include "machtypes.h"
 
-#define TL_WR703N_GPIO_LED_SYSTEM	27
-#define TL_WR703N_GPIO_BTN_RESET	11
+#define TL_WR720N_GPIO_LED_SYSTEM	27
+#define TL_WR720N_GPIO_BTN_RESET	11
 
-#define TL_WR703N_GPIO_USB_POWER	8
+#define TL_WR720N_GPIO_USB_POWER	8
+#define TL_WR720N_GPIO_BTN_SW1		18
+#define TL_WR720N_GPIO_BTN_SW2		20
 
-#define TL_WR703N_KEYS_POLL_INTERVAL	20	/* msecs */
-#define TL_WR703N_KEYS_DEBOUNCE_INTERVAL	(3 * TL_WR703N_KEYS_POLL_INTERVAL)
+#define TL_WR720N_KEYS_POLL_INTERVAL	20	/* msecs */
+#define TL_WR720N_KEYS_DEBOUNCE_INTERVAL	(3 * TL_WR720N_KEYS_POLL_INTERVAL)
 
-static const char *tl_wr703n_part_probes[] = {
+static const char *tl_wr720n_part_probes[] = {
 	"tp-link",
 	NULL,
 };
 
-static struct flash_platform_data tl_wr703n_flash_data = {
-	.part_probes	= tl_wr703n_part_probes,
+static struct flash_platform_data tl_wr720n_flash_data = {
+	.part_probes	= tl_wr720n_part_probes,
 };
 
-static struct gpio_led tl_wr703n_leds_gpio[] __initdata = {
+static struct gpio_led tl_wr720n_leds_gpio[] __initdata = {
 	{
 		.name		= "tp-link:blue:system",
-		.gpio		= TL_WR703N_GPIO_LED_SYSTEM,
+		.gpio		= TL_WR720N_GPIO_LED_SYSTEM,
 		.active_low	= 1,
 	},
 };
 
-static struct gpio_keys_button tl_wr703n_gpio_keys[] __initdata = {
+static struct gpio_keys_button tl_wr720n_gpio_keys[] __initdata = {
 	{
 		.desc		= "reset",
 		.type		= EV_KEY,
 		.code		= KEY_RESTART,
-		.debounce_interval = TL_WR703N_KEYS_DEBOUNCE_INTERVAL,
-		.gpio		= TL_WR703N_GPIO_BTN_RESET,
+		.debounce_interval = TL_WR720N_KEYS_DEBOUNCE_INTERVAL,
+		.gpio		= TL_WR720N_GPIO_BTN_RESET,
 		.active_low	= 0,
-	}
+        }, {
+                .desc        = "sw1",
+                .type        = EV_KEY,
+                .code        = BTN_0,
+                .debounce_interval = TL_WR720N_KEYS_DEBOUNCE_INTERVAL,
+                .gpio        = TL_WR720N_GPIO_BTN_SW1,
+                .active_low    = 0,
+        }, {
+                .desc        = "sw2",
+                .type        = EV_KEY,
+                .code        = BTN_1,
+                .debounce_interval = TL_WR720N_KEYS_DEBOUNCE_INTERVAL,
+                .gpio        = TL_WR720N_GPIO_BTN_SW2,
+                .active_low    = 0,
+        }
 };
 
-static void __init tl_wr703n_setup(void)
+static void __init tl_wr720n_setup(void)
 {
 	u8 *mac = (u8 *) KSEG1ADDR(0x1f01fc00);
 	u8 *ee = (u8 *) KSEG1ADDR(0x1fff1000);
 
-	ath79_register_m25p80(&tl_wr703n_flash_data);
-	ath79_register_leds_gpio(-1, ARRAY_SIZE(tl_wr703n_leds_gpio),
-				 tl_wr703n_leds_gpio);
-	ath79_register_gpio_keys_polled(-1, TL_WR703N_KEYS_POLL_INTERVAL,
-					ARRAY_SIZE(tl_wr703n_gpio_keys),
-					tl_wr703n_gpio_keys);
+	ath79_register_m25p80(&tl_wr720n_flash_data);
+	ath79_register_leds_gpio(-1, ARRAY_SIZE(tl_wr720n_leds_gpio),
+				 tl_wr720n_leds_gpio);
+	ath79_register_gpio_keys_polled(-1, TL_WR720N_KEYS_POLL_INTERVAL,
+					ARRAY_SIZE(tl_wr720n_gpio_keys),
+					tl_wr720n_gpio_keys);
 
-	gpio_request_one(TL_WR703N_GPIO_USB_POWER,
+	gpio_request_one(TL_WR720N_GPIO_USB_POWER,
 			 GPIOF_OUT_INIT_HIGH | GPIOF_EXPORT_DIR_FIXED,
 			 "USB power");
 	ath79_register_usb();
@@ -82,5 +98,5 @@ static void __init tl_wr703n_setup(void)
 	ath79_register_wmac(ee, mac);
 }
 
-MIPS_MACHINE(ATH79_MACH_TL_WR703N, "TL-WR703N", "TP-LINK TL-WR703N v1",
-	     tl_wr703n_setup);
+MIPS_MACHINE(ATH79_MACH_TL_WR720N, "TL-WR720N", "TP-LINK TL-WR720N v3",
+	     tl_wr720n_setup);
