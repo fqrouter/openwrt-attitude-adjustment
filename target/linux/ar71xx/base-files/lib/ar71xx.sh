@@ -132,6 +132,9 @@ tplink_board_detect() {
 	"431000"*)
 		model="TP-Link TL-WDR4310"
 		;;
+        "453000"*)
+                model="Mercury MW-4530R"
+                ;;
 	*)
 		hwver=""
 		;;
