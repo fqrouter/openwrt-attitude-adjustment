@@ -185,5 +185,5 @@ static void __init wdr4300_setup(void)
 }
 
 MIPS_MACHINE(ATH79_MACH_TL_WDR4300, "TL-WDR4300",
-	     "TP-LINK TL-WDR3600/4300/4310",
+	     "TP-LINK TL-WDR3600/4300/4310 and MW-4530R",
 	     wdr4300_setup);
