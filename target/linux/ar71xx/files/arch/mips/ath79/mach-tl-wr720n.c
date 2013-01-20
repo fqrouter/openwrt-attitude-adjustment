@@ -78,6 +78,9 @@ static void __init tl_wr720n_setup(void)
 	u8 *mac = (u8 *) KSEG1ADDR(0x1f01fc00);
 	u8 *ee = (u8 *) KSEG1ADDR(0x1fff1000);
 
+	/* disable PHY_SWAP and PHY_ADDR_SWAP bits */
+	ath79_setup_ar933x_phy4_switch(false, false);
+
 	ath79_register_m25p80(&tl_wr720n_flash_data);
 	ath79_register_leds_gpio(-1, ARRAY_SIZE(tl_wr720n_leds_gpio),
 				 tl_wr720n_leds_gpio);
