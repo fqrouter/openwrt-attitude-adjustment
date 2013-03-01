@@ -93,10 +93,12 @@ static void __init tl_wr720n_setup(void)
 			 "USB power");
 	ath79_register_usb();
 
-	ath79_init_mac(ath79_eth0_data.mac_addr, mac, 0);
+	ath79_init_mac(ath79_eth0_data.mac_addr, mac, 1);
+	ath79_init_mac(ath79_eth1_data.mac_addr, mac, 2);
 
 	ath79_register_mdio(0, 0x0);
 	ath79_register_eth(0);
+	ath79_register_eth(1);
 
 	ath79_register_wmac(ee, mac);
 }
